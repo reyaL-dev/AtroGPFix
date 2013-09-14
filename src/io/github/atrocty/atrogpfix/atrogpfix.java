@@ -40,7 +40,4 @@ public final class atrogpfix extends JavaPlugin
     	}
     	return false;
     }
-
-
-
 }
