@@ -1,16 +1,5 @@
 name: AtroGPFix
 main: io.github.atrocty.atrogpfix.atrogpfix
 version: 1.0
-author: AtroCty 
-
-commands:
-   basic:
-      description: Zum Testen.
-      usage: /basic [player]
-      permission: atroctygpfix.basic
-      permission-message: Keine Permission zu /basic
-
-permissions:
-  atroctygpfix.basic:
-    description: Gives access to the gpflags command.
-    default: true
+author: AtroCty
+depend: [GriefPrevention]

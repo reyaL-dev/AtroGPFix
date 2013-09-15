@@ -1,9 +1,6 @@
 package io.github.atrocty.atrogpfix;
 
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
-import org.bukkit.plugin.java.JavaPlugin;
+import me.ryanhamshire.GriefPrevention.Claim;
 
 public final class atrogpfix extends JavaPlugin 
 {
@@ -19,25 +16,24 @@ public final class atrogpfix extends JavaPlugin
 		getLogger().info("onDisable wurde ausgeführt!");
 	}
 	
-    public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
-    	if (cmd.getName().equalsIgnoreCase("basic"))
-    	{ // If the player typed /basic then do the following...
-    		// do something...
-    		return true;
-    	} 
-    	else if (cmd.getName().equalsIgnoreCase("basic2")) 
-    	{
-    		if (!(sender instanceof Player)) 
-    		{
-    			sender.sendMessage("This command can only be run by a player.");
-    		} 
-    		else 
-    		{
-    			Player player = (Player) sender;
-    			// do something
-    		}
-    		return true;
-    	}
-    	return false;
-    }
+	public class CreatureSpawnListener implements Listener
+	{
+		@EventHandler(ignoreCancelled = true)
+		private void onCreatureSpawn(CreatureSpawnEvent e)
+		{
+			Claim claim = ClaimManager.getClaimAtLocation(e.getLocation());
+			World world = e.getEntity().getWorld();
+			Flag flag = new Flag(Type.SpawnMob);
+	
+			if (e.getSpawnReason() == CreatureSpawnEvent.SpawnReason.NATURAL) 
+			{
+				if (claim == null) {
+				e.setCancelled(!flag.isUnclaimedAllowed(world));
+			} 
+			else 
+			{
+				e.setCancelled(!flag.isAllowed(claim));
+			}
+			return;
+		}
 }
